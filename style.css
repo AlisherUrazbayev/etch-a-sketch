@@ -38,7 +38,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  height: 400px;
+  height: 550px;
   text-align: center;
 }
 

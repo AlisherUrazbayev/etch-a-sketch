@@ -24,7 +24,6 @@ function changeColor(item, color) {
 }
 
 function clearCanvas(items) {
-  console.log(items);
   items.forEach((element) => {
     element.style["backgroundColor"] = "white";
   });
@@ -34,14 +33,23 @@ function toggleEraser() {
   currentColor = "white";
 }
 
-let currentColor = "grey";
-createGrid(32, sketchContainer);
+function deleteGrid(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+}
 
-const gridSquares = document.querySelectorAll(".grid-square");
+const sizeInput = document.querySelector("#grid-size");
+const colorInput = document.querySelector("#current-color");
+let currentColor = colorInput.value;
+
+createGrid(sizeInput.value, sketchContainer);
+
+let gridSquares = document.querySelectorAll(".grid-square");
 const btnClear = document.querySelector("#button-clear");
 const btnEraser = document.querySelector("#button-eraser");
 const btnChangeColor = document.querySelector("#button-change-color");
-const colorInput = document.querySelector("#current-color");
+const btnChangeSize = document.querySelector("#button-change-size");
 
 gridSquares.forEach((element) => {
   element.addEventListener("mouseenter", () => {
@@ -58,5 +66,17 @@ btnEraser.addEventListener("click", () => {
 });
 
 btnChangeColor.addEventListener("click", () => {
+  console.log(currentColor);
   currentColor = colorInput.value;
+});
+
+btnChangeSize.addEventListener("click", () => {
+  deleteGrid(sketchContainer);
+  createGrid(sizeInput.value, sketchContainer);
+  gridSquares = document.querySelectorAll(".grid-square");
+  gridSquares.forEach((element) => {
+    element.addEventListener("mouseenter", () => {
+      changeColor(element, currentColor);
+    });
+  });
 });
